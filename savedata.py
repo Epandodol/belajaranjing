@@ -37,14 +37,41 @@ def lihat_data():
     except FileNotFoundError:
         print("Tidak ada data yang ditemukan. Silakan tambah data terlebih dahulu.")
 
+def hapus_data():
+    try:
+        with open('test.json', 'r') as f:
+            data = json.load(f)
+        
+        if not data:
+            print("Tidak ada data yang bisa dihapus.")
+            return
+        
+        lihat_data()
+        
+        indeks = int(input("Masukkan nomor data yang ingin dihapus: ")) - 1
+        
+        if 0 <= indeks < len(data):
+            data.pop(indeks)
+            with open('test.json', 'w') as f:
+                json.dump(data, f)
+            print("Data telah dihapus.")
+        else:
+            print("Nomor data tidak valid.")
+    except FileNotFoundError:
+        print("Tidak ada data yang ditemukan. Silakan tambah data terlebih dahulu.")
+    except json.JSONDecodeError:
+        print("Tidak ada data yang valid. Silakan tambah data terlebih dahulu.")
+
 def menu():
     while True:
-        user_opsion = int(input("menu:\n\n1. Tambah Data\n2. Lihat Data\n3. Keluar\nMasukkan opsi: "))
+        user_opsion = int(input("menu:\n\n1. Tambah Data\n2. Lihat Data\n3. Hapus Data\n4. Keluar\nMasukkan opsi: "))
         if user_opsion == 1:
             tambah_data()
         elif user_opsion == 2:
             lihat_data()
         elif user_opsion == 3:
+            hapus_data()
+        elif user_opsion == 4:
             print("Keluar dari program.")
             break
         else:
